@@ -1,7 +1,14 @@
+:root{
+    --h2-color: black;
+    --grey: #7A7A7A;
+    --yellow: #FFD15B;
+
+}
+
 body{
     width: 1440px;
-    margin-right: auto;
-    margin-left: auto;
+    margin: 0 auto;
+    background-color: #EDEDED;
 }
 
 header{
@@ -14,7 +21,7 @@ header{
 }
 
 header p{
-    color: #FFD15B;
+    color: var(--yellow);
     font-family: "Anton", sans-serif;
     font-size: 44px;
     text-align: center;
@@ -25,6 +32,8 @@ header p{
     width: 950px;
     margin-left: auto;
     margin-right: auto;
+    display: flex;
+    position: relative;
 }
 
 .main__field{
@@ -35,3 +44,150 @@ header p{
     padding-left: 30px;
 }
 
+.search span{
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    border-radius: 10px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.fa-magnifying-glass{
+    font-size: 30px;
+    color: white;
+}
+
+.search span:hover{
+    background-color: var(--yellow);
+}
+
+.search span:hover >.fa-magnifying-glass {
+    color: black;
+}
+
+.filters__result{
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.filters{
+    display: flex;
+}
+
+.filter{
+    display: flex;
+    width: 195px;
+    height: 60px;
+    border: none;
+    border-radius: 10px;
+    margin-right: 50px;
+    padding-left: 10px;
+    background-color: #FFF;
+}
+
+
+/* recipes setion */
+.recipes{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
+    margin-bottom: 200px;
+}
+
+.recipe{
+    width: 380px;
+    border-radius: 20px;
+    background-color: #FFF;
+    margin-bottom: 50px;
+}
+
+.img__time{
+    position: relative;
+}
+
+.time{
+    margin: 0;
+    padding: 10px 15px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--yellow);
+    font-family: "Manrope", sans-serif;
+    border-radius: 15px;
+}
+
+.recipe img{
+    object-fit: cover;
+    width: 380px;
+    height: 250px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+
+.recipe h3,
+.recipe p,
+.ingredient__name,
+.ingredient__quantity
+{
+    font-family: "Manrope", sans-serif;
+}
+
+.recipe h2{
+    font-size: 18px;
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
+    margin: 0;
+    padding: 20px;
+    padding-bottom: 0px;
+
+}
+
+.recipe__details{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.recipe h3{
+    font-size: 12px;
+    color: var(--grey);
+    font-weight: 800;
+}
+
+.recipe p{
+    font-size: 14px;
+    margin: 0;
+}
+
+.recipe__description{
+    margin-bottom: 20px;
+}
+
+.ingredients{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ingredient:nth-child(2n+1){
+    margin-right: 10px;
+}
+
+.ingredient{
+    width: 45%;
+    margin-bottom: 10px;
+}
+
+.ingredient__name{
+}
+
+.ingredient__quantity{
+    color: var(--grey);
+}

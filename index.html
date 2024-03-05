@@ -1,21 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css" type="text/css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/953b4e9692.js" crossorigin="anonymous"></script>
+    <script type="module" defer src="script/pages/index.js"></script>
     <title>Les-petits-plats</title>
 </head>
+
 <body>
     <header>
         <img src="assets/images/Les-petits-plats.png" alt="Logo les petits plats">
-        <p>CHERCHEZ PARMI PLUS DE 1500 RECETTES <br> DU QUOTIDIEN, SIMPLES ET DÉLICIEUSE</p>
+        <p>CHERCHEZ PARMI PLUS DE 1500 RECETTES <br> DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES</p>
         <article class="search">
             <input class="main__field" type="search" placeholder="Rechercher une recette, un ingrédient, ...">
+            <span><i class="fa-solid fa-magnifying-glass"></i></span>
         </article>
     </header>
+    <section class="filters__result">
+        <article class="filters">
+            <select class="filter" name="ingredients" id="ingredients">
+                <option value="">Ingrédients</option>
+            </select>
+            <select class="filter" name="appliances" id="appliances">
+                <option value="">Appareils</option>
+            </select>
+            <select class="filter" name="ustensils" id="ustensils">
+                <option value="">Ustensiles</option>
+            </select>
+        </article>
+    </section>
+    <section class="recipes">
+    </section>
 </body>
+
 </html>
