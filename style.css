@@ -1,8 +1,10 @@
 :root{
     --h2-color: black;
     --grey: #7A7A7A;
+    --lightgrey: #C6C6C6;
     --yellow: #FFD15B;
 
+    --manrope-police: "Manrope", sans-serif;
 }
 
 body{
@@ -45,35 +47,46 @@ header p{
 }
 
 .search span{
-    background-color: black;
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 50px;
     width: 50px;
     border-radius: 10px;
-    position: absolute;
+    background-color: black;
     right: 10px;
     top: 10px;
 }
 
-.fa-magnifying-glass{
+.search .fa-xmark{
+    display: none;
+    position: absolute;
+    right: 80px;
+    top: 20px;
     font-size: 30px;
+    color: var(--grey);
+}
+
+.search .fa-magnifying-glass{
     color: white;
+    font-size: 30px;
 }
 
 .search span:hover{
     background-color: var(--yellow);
 }
 
-.search span:hover >.fa-magnifying-glass {
+.search span:hover > .fa-magnifying-glass{
     color: black;
 }
 
+
+/* filter section */
 .filters__result{
-    margin: 20px auto;
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px auto;
 }
 
 .filters{
@@ -81,23 +94,84 @@ header p{
 }
 
 .filter{
-    display: flex;
+    height: fit-content;
     width: 195px;
-    height: 60px;
-    border: none;
+    display: flex;
+    flex-direction: column;
     border-radius: 10px;
+    padding: 20px;
     margin-right: 50px;
-    padding-left: 10px;
     background-color: #FFF;
 }
 
+.filter label{
+    font-family: var(--manrope-police);
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.input__block{
+    display: flex;
+    position: relative;
+    margin-top: 10px;
+}
+
+.input__block .fa-solid{
+    position: absolute;
+    color: var(--lightgrey);
+}
+
+.filter .fa-xmark{
+    top: 12px;
+    right: 30px;
+    font-size: 14px;
+}
+
+.filter .fa-magnifying-glass{
+    top: 12px;
+    right: 10px;
+    font-size: 16px;
+}
+
+.filter input{
+    width: 100%;
+    border: 1px solid var(--lightgrey);
+    color: var(--grey);
+    height: 35px;
+    font-size: 14px;
+}
+
+.filter input:focus{
+    outline: none;
+}
+
+.filter span,
+.filter ul{
+    display: none;
+}
+
+.filters__result ul{
+    padding: 0;
+    margin-bottom: 0;
+    height: fit-content;
+    max-height: 300px;
+    overflow-y: scroll ;
+}
+
+.filters__result li{
+    list-style-type: none;
+    display: block;
+    font-family: var(--manrope-police);
+    margin: 10px auto;
+}
 
 /* recipes setion */
 .recipes{
     display: grid;
     grid-template-columns: repeat(3, auto);
     justify-content: space-between;
-    margin-bottom: 200px;
+    margin: 50px auto;
 }
 
 .recipe{
@@ -118,7 +192,7 @@ header p{
     top: 10px;
     right: 10px;
     background-color: var(--yellow);
-    font-family: "Manrope", sans-serif;
+    font-family: var(--manrope-police);
     border-radius: 15px;
 }
 
@@ -136,7 +210,7 @@ header p{
 .ingredient__name,
 .ingredient__quantity
 {
-    font-family: "Manrope", sans-serif;
+    font-family: var(--manrope-police);
 }
 
 .recipe h2{
@@ -183,9 +257,6 @@ header p{
 .ingredient{
     width: 45%;
     margin-bottom: 10px;
-}
-
-.ingredient__name{
 }
 
 .ingredient__quantity{
