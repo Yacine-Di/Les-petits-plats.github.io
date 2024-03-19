@@ -1,6 +1,6 @@
-import { recipes } from 'script/data/recipes.js'
-import { filtersTemplate } from 'script/templates/filtersTemplate.js'
-import { recipeTemplate, ingredientsTemplate } from 'script/templates/recipeTemplate.js'
+import { recipes } from '/script/data/recipes.js'
+import { filtersTemplate } from '/script/templates/filtersTemplate.js'
+import { recipeTemplate, ingredientsTemplate } from '/script/templates/recipeTemplate.js'
 
 async function init() {
     manageMainSearchField()
