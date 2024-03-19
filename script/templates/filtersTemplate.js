@@ -1,37 +1,46 @@
 export class filtersTemplate {
     constructor(recipes) {
         this.recipes = recipes
-        this.wrapper = document.querySelector(".filters")
+        this.wrapper = document.querySelector(".filters__tags")
     }
 
     render() {
         const filters = `
-        <article class="filter">
-            <label for="ingredients">Ingrédients<i class="fa-solid fa-chevron-up"></i></label>
-            <span class="input__block" data-hidden>
-                <input type="text" name="ingredients" id="ingredients">
-                <i class="fa-solid fa-xmark"></i>
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-            <ul class="ingredients__list"></ul>
+        <article class="filter__tags">
+            <article class="filter">
+                <label for="ingredients">Ingrédients<i class="fa-solid fa-chevron-up"></i></label>
+                <span class="input__block" data-hidden>
+                    <input type="text" name="ingredients" id="ingredients">
+                    <i class="fa-solid fa-xmark"></i>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <ul class="ingredients__list"></ul>
+            </article>
+            <article class="tags"></article>
         </article>
-        <article class="filter">
-            <label for="appliances">Appareils<i class="fa-solid fa-chevron-up"></i></label>
-            <span class="input__block" data-hidden>
-                <input type="text" name="appliances" id="appliances">
-                <i class="fa-solid fa-xmark"></i>
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-            <ul class="appliances__list"></ul>
+        <article class="filter__tags">
+            <article class="filter">
+                <label for="appliances">Appareils<i class="fa-solid fa-chevron-up"></i></label>
+                <span class="input__block" data-hidden>
+                    <input type="text" name="appliances" id="appliances">
+                    <i class="fa-solid fa-xmark"></i>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <ul class="appliances__list"></ul>
+            </article>
+            <article class="tags"></article>
         </article>
-        <article class="filter">
-            <label for="ustensils">Ustensiles<i class="fa-solid fa-chevron-up"></i></label>
-            <span class="input__block" data-hidden>
-                <input type="text" name="ustensils" id="ustensils">
-                <i class="fa-solid fa-xmark"></i>
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </span>
-            <ul class="ustensils__list"></ul>
+        <article class="filter__tags">
+            <article class="filter">
+                <label for="ustensils">Ustensiles<i class="fa-solid fa-chevron-up"></i></label>
+                <span class="input__block" data-hidden>
+                    <input type="text" name="ustensils" id="ustensils">
+                    <i class="fa-solid fa-xmark"></i>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <ul class="ustensils__list"></ul>
+            </article>
+            <article class="tags"></article>
         </article>
         `
 
@@ -40,37 +49,84 @@ export class filtersTemplate {
         this.createFilters(this.recipes)
         this.openFilters()
         this.onSearch()
+        this.addTag()
+    }
+
+    deleteTag(tag, tagList){
+        tag.querySelector(".fa-xmark").addEventListener("click", () => {
+            tagList.removeChild(tag)
+        })
+    }
+    addTag() {
+        const allListElements = this.wrapper.querySelectorAll("ul li")
+        allListElements.forEach(element => {
+            element.addEventListener("click", () => {
+                const tag = document.createElement("span")
+                const text = document.createElement("p")
+                const clearBtn = `<i class="fa-solid fa-xmark"></i>`
+
+                text.innerHTML = element.innerHTML
+                tag.appendChild(text)
+                tag.classList.add("tag")
+                tag.setAttribute("data-name", element.id)
+                tag.innerHTML += clearBtn
+
+                const tagList = element.parentNode.parentNode.parentNode.querySelector(".tags")
+                tagList.appendChild(tag)
+
+                this.deleteTag(tag, tagList)
+            })
+        })
+    }
+
+    /** Actualise les filtres
+     * 
+     * @param {input} input champ de recherche
+     * @param {Array[li]} defaultList liste complète par default
+     * @param {icon} closeBtn icon permettant d'effacer le texte
+     */
+    changeFilters(input, defaultList, closeBtn) {
+        const query = input.value.toLowerCase()
+        const list = input.parentNode.parentNode.querySelector("ul")
+        const newList = []
+        list.innerHTML = ""
+
+        if (query.length > 0) {
+            closeBtn.style.display = "block"
+
+            defaultList.forEach(element => {
+                if (element.id.includes(query)) {
+                    newList.push(element)
+                }
+            })
+
+            for (let i = 0; i < newList.length; i++) {
+                list.appendChild(newList[i])
+                list.parentNode.style.height = "fit-content"
+            }
+        } else {
+            defaultList.forEach(element => {
+                list.appendChild(element)
+                closeBtn.style.display = "none"
+            })
+        }
     }
 
     onSearch() {
-
         this.wrapper
             .querySelectorAll(".filter input")
             .forEach(input => {
                 const defaultList = input.parentNode.parentNode.querySelectorAll("ul li")
+                const closeBtn = input.parentNode.querySelector(".fa-xmark")
 
-                input.addEventListener("keyup", (event) => {
-                    const query = event.target.value
-                    const list = event.target.parentNode.parentNode.querySelector("ul")
-                    const newList = []
-                    list.innerHTML = ""
+                input.addEventListener("keyup", () => {
+                    this.changeFilters(input, defaultList, closeBtn)
+                })
 
-                    if(query.length > 0){
-                        defaultList.forEach(element => {
-                            if (element.id.includes(query)) {
-                                newList.push(element)
-                            }
-                        })
-
-                        for (let i = 0; i < newList.length; i++) {
-                            list.appendChild(newList[i])
-                            list.parentNode.style.height = "fit-content"
-                        }
-                    } else {
-                        defaultList.forEach(element => {
-                            list.appendChild(element)
-                        })
-                    }
+                closeBtn.addEventListener("click", () => {
+                    input.value = ""
+                    closeBtn.style.display = "none"
+                    this.changeFilters(input, defaultList, closeBtn)
                 })
             })
     }
@@ -130,12 +186,6 @@ export class filtersTemplate {
             const appliancesList = document.querySelector(".appliances__list")
             const ustensilsList = document.querySelector(".ustensils__list")
 
-            const applianceListElement = document.createElement("li")
-            applianceListElement.id = recipe.appliance
-
-            const ustensilsListElement = document.createElement("li")
-            ustensilsListElement.id = recipe.ustensils
-
             recipe.ingredients.forEach(ingredientDetails => {
                 const ingredientListElements = document.querySelectorAll(".ingredients__list li")
                 const ingredientsValues = [...ingredientListElements].map(ing => ing.id.toLowerCase())
@@ -143,7 +193,7 @@ export class filtersTemplate {
                 if (!ingredientsValues.includes(ingredientDetails.ingredient.toLowerCase())) {
                     const ingredientListElement = document.createElement("li")
 
-                    ingredientListElement.id = ingredientDetails.ingredient
+                    ingredientListElement.id = ingredientDetails.ingredient.toLowerCase()
                     ingredientListElement.innerHTML = ingredientDetails.ingredient
                     ingredientsList.appendChild(ingredientListElement)
                 }
@@ -152,10 +202,10 @@ export class filtersTemplate {
             const applianceListElements = document.querySelectorAll(".appliances__list li")
             const appliancesValues = [...applianceListElements].map(app => app.id)
 
-            if (!appliancesValues.includes(recipe.appliance)) {
+            if (!appliancesValues.includes(recipe.appliance.toLowerCase())) {
                 const applianceListElement = document.createElement("li")
 
-                applianceListElement.id = recipe.appliance
+                applianceListElement.id = recipe.appliance.toLowerCase()
                 applianceListElement.innerHTML = recipe.appliance
                 appliancesList.appendChild(applianceListElement)
             }
@@ -167,7 +217,7 @@ export class filtersTemplate {
                 if (!ustensilsValues.includes(ustensil.toLowerCase())) {
                     const ustensilOption = document.createElement("li")
 
-                    ustensilOption.id = ustensil
+                    ustensilOption.id = ustensil.toLowerCase()
                     ustensilOption.innerHTML = ustensil
                     ustensilsList.appendChild(ustensilOption)
                 }

@@ -21,21 +21,22 @@ async function init() {
 async function manageMainSearchField() {
     const searchField = document.querySelector(".main__field ")
     searchField.value = ""
-    const xMarkMainField = document.querySelector(".search .fa-xmark")
+    const clearMainField = document.querySelector(".search .fa-xmark")
+    
     searchField.addEventListener("keyup", (event) => {
         const query = event.target.value
         if (query.length > 0) {
-            xMarkMainField.style.display = "inline"
+            clearMainField.style.display = "inline"
         } else {
-            xMarkMainField.style.display = "none"
+            clearMainField.style.display = "none"
         }
     })
 
-    xMarkMainField.addEventListener("click", () => {
+    clearMainField.addEventListener("click", () => {
         const query = searchField.value
         if (query.length > 0) {
             searchField.value = ""
-            xMarkMainField.style.display = "none"
+            clearMainField.style.display = "none"
         }
     })
 }

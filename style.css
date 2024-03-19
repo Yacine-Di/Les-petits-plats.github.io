@@ -89,7 +89,7 @@ header p{
     margin: 20px auto;
 }
 
-.filters{
+.filters__tags{
     display: flex;
 }
 
@@ -108,7 +108,6 @@ header p{
     font-family: var(--manrope-police);
     display: flex;
     justify-content: space-between;
-
 }
 
 .input__block{
@@ -123,6 +122,7 @@ header p{
 }
 
 .filter .fa-xmark{
+    display: none;
     top: 12px;
     right: 30px;
     font-size: 14px;
@@ -164,6 +164,26 @@ header p{
     display: block;
     font-family: var(--manrope-police);
     margin: 10px auto;
+}
+
+.tags{
+    margin-top: 20px;
+}
+
+.tag{
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 195px;
+    border-radius: 10px;
+    background-color: var(--yellow);
+    padding: 20px;
+}
+
+.tag p{
+    margin: 0;
+    font-family: var(--manrope-police)
 }
 
 /* recipes setion */
