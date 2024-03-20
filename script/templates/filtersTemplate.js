@@ -57,6 +57,7 @@ export class filtersTemplate {
             tagList.removeChild(tag)
         })
     }
+    
     addTag() {
         const allListElements = this.wrapper.querySelectorAll("ul li")
         allListElements.forEach(element => {
