@@ -1,3 +1,5 @@
+import { recipeTemplate, ingredientsTemplate } from '../templates/recipeTemplate.js'
+
 export class filtersTemplate {
     constructor(recipes) {
         this.recipes = recipes
@@ -20,7 +22,7 @@ export class filtersTemplate {
         </article>
         <article class="filter__tags">
             <article class="filter">
-                <label for="appliances">Appareils<i class="fa-solid fa-chevron-up"></i></label>
+                <label for="appliance">Appareils<i class="fa-solid fa-chevron-up"></i></label>
                 <span class="input__block" data-hidden>
                     <input type="text" name="appliances" id="appliances">
                     <i class="fa-solid fa-xmark"></i>
@@ -52,12 +54,146 @@ export class filtersTemplate {
         this.addTag()
     }
 
-    deleteTag(tag, tagList){
+    updateFilters(recipes){
+        this.clearFilters()
+        this.createFilters(recipes)
+
+        /* Supprime l'élément de la liste de filtre */
+        const filterElements = document.querySelectorAll(".filter ul li")
+        const displayedTag = document.querySelectorAll(".tag")
+        filterElements.forEach(element => {
+            displayedTag.forEach(t => {
+                if (element.getAttribute("id") === t.getAttribute("data-name")) {
+                    element.style.display = "none"
+                }
+            })
+        })
+
+        this.onSearch()
+        this.addTag()
+    }
+
+    clearFilters() {
+        const ingredientsList = document.querySelector(".ingredients__list")
+        const appliancesList = document.querySelector(".appliances__list")
+        const ustensilsList = document.querySelector(".ustensils__list")
+        ingredientsList.innerHTML = ""
+        appliancesList.innerHTML = ""
+        ustensilsList.innerHTML = ""
+    }
+
+    /**
+     * 
+     * @param {Object} recipes recette au format object de recipe.js
+     * @param {span} tag tag selectionné dans l'une des listes déroulante
+     * @returns {Array[recipes]} 
+     */
+    getNewRecipesList(recipes, tag) {
+        const dataType = tag.parentNode.parentNode.querySelector(".filter label").getAttribute("for")
+        const selectedData = tag.getAttribute("data-name")
+        const newRecipes = []
+
+        switch (dataType) {
+            case "ingredients":
+                recipes.forEach(recipe => {
+                    recipe.ingredients.forEach(ingredient => {
+                        if (ingredient.ingredient.toLowerCase() === selectedData) {
+                            newRecipes.push(recipe)
+                        }
+                    })
+                })
+                break;
+            case "appliance":
+                recipes.forEach(recipe => {
+                    if (recipe.appliance.toLowerCase() === selectedData) {
+                        newRecipes.push(recipe)
+                    }
+                })
+                break;
+            case "ustensils":
+                recipes.forEach(recipe => {
+                    recipe.ustensils.forEach(ustensil => {
+                        if (ustensil.toLowerCase() === selectedData) {
+                            newRecipes.push(recipe)
+                        }
+                    })
+                })
+        }
+
+        return newRecipes
+    }
+
+    updateRecipes(recipes, tag) {
+        const recipesArticle = document.querySelectorAll(".recipes [data-id]")
+        const recipesArticleId = []
+        //récupération des Ids présents sur la page
+        recipesArticle.forEach(displayedRecipe => {
+            recipesArticleId.push(parseInt(displayedRecipe.getAttribute("data-id")))
+        })
+
+        const actualRecipes = []
+        //récupération des recettes affichées sur la page
+        recipes.forEach(recipe => {
+            if (recipesArticleId.includes(recipe.id)) {
+                actualRecipes.push(recipe)
+            }
+        })
+
+        const newRecipesList = this.getNewRecipesList(actualRecipes, tag)
+        const recipesWrapper = document.querySelector(".recipes")
+        recipesWrapper.innerHTML = ""
+
+        newRecipesList.forEach(recipe => {
+            const recipeArticle = recipeTemplate(recipe)
+            recipesWrapper.innerHTML += recipeArticle
+
+            const ingredientsArticle = document.querySelector(`.recipe[data-id="${recipe.id}"] .recipe__details .recipe__ingredients`)
+            ingredientsArticle.appendChild(ingredientsTemplate(recipe.ingredients))
+        })
+
+
+        this.updateFilters(newRecipesList)
+
+    }
+
+    deleteTag(tag, tagsArticle, recipes) {
         tag.querySelector(".fa-xmark").addEventListener("click", () => {
-            tagList.removeChild(tag)
+            tagsArticle.removeChild(tag)
+
+            let newRecipesList = []
+            let isFirstFiltering = true
+            const allTags = document.querySelectorAll(".tag")
+
+            if (allTags.length !== 0) {
+                allTags.forEach(t => {
+                    if (isFirstFiltering) {
+                        newRecipesList = this.getNewRecipesList(recipes, t)
+                        isFirstFiltering = false
+                    } else {
+                        newRecipesList = this.getNewRecipesList(newRecipesList, t)
+                    }
+                    //trier les recettes avec les tag récupéré dans l'ordre des recettes du fichiers
+                })
+            } else {
+                newRecipesList = recipes
+            }
+
+            const recipesWrapper = document.querySelector(".recipes")
+            recipesWrapper.innerHTML = ""
+
+            newRecipesList.forEach(recipe => {
+                const recipeArticle = recipeTemplate(recipe)
+                recipesWrapper.innerHTML += recipeArticle
+
+                const ingredientsArticle = document.querySelector(`.recipe[data-id="${recipe.id}"] .recipe__details .recipe__ingredients`)
+                ingredientsArticle.appendChild(ingredientsTemplate(recipe.ingredients))
+            })
+
+            this.updateFilters(newRecipesList)
         })
     }
-    
+
+    //ajout de tag dans la zone dédié
     addTag() {
         const allListElements = this.wrapper.querySelectorAll("ul li")
         allListElements.forEach(element => {
@@ -72,10 +208,11 @@ export class filtersTemplate {
                 tag.setAttribute("data-name", element.id)
                 tag.innerHTML += clearBtn
 
-                const tagList = element.parentNode.parentNode.parentNode.querySelector(".tags")
-                tagList.appendChild(tag)
+                const tagsArticle = element.parentNode.parentNode.parentNode.querySelector(".tags")
+                tagsArticle.appendChild(tag)
 
-                this.deleteTag(tag, tagList)
+                this.deleteTag(tag, tagsArticle, this.recipes)
+                this.updateRecipes(this.recipes, tag)
             })
         })
     }

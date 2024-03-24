@@ -19,7 +19,7 @@ async function init() {
 }
 
 async function onSearch(){
-
+    
 }
 
 async function manageMainSearchField() {
