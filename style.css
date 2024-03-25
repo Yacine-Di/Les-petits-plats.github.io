@@ -5,6 +5,7 @@
     --yellow: #FFD15B;
 
     --manrope-police: "Manrope", sans-serif;
+    --anton-police: "Anton", sans-serif;
 }
 
 body{
@@ -24,7 +25,7 @@ header{
 
 header p{
     color: var(--yellow);
-    font-family: "Anton", sans-serif;
+    font-family: var(--anton-police);
     font-size: 44px;
     text-align: center;
     margin-top: 200px;
@@ -151,6 +152,10 @@ header p{
     display: none;
 }
 
+.filters__result .result{
+    font-family: var(--anton-police);
+}
+
 .filters__result ul{
     padding: 0;
     margin-bottom: 0;
@@ -186,7 +191,12 @@ header p{
     font-family: var(--manrope-police)
 }
 
-/* recipes setion */
+.filters__result,
+.recipes{
+    padding: 0 50px;
+}
+
+/* recipes section */
 .recipes{
     display: grid;
     grid-template-columns: repeat(3, auto);
@@ -235,7 +245,7 @@ header p{
 
 .recipe h2{
     font-size: 18px;
-    font-family: "Anton", sans-serif;
+    font-family:var(--anton-police);
     font-weight: 400;
     margin: 0;
     padding: 20px;

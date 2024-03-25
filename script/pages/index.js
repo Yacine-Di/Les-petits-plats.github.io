@@ -16,10 +16,18 @@ async function init() {
         const ingredientsArticle = document.querySelector(`.recipe[data-id="${recipe.id}"] .recipe__details .recipe__ingredients`)
         ingredientsArticle.appendChild(ingredientsTemplate(recipe.ingredients))
     })
+
+    updateResult()
 }
 
 async function onSearch(){
     
+}
+
+async function updateResult(){
+    const resultWrapper = document.querySelector(".result")
+    const nbrOfResults = document.querySelector(".recipes").childElementCount
+    resultWrapper.innerText = `${nbrOfResults} recettes`
 }
 
 async function manageMainSearchField() {

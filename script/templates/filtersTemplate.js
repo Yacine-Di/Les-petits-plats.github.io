@@ -54,6 +54,30 @@ export class filtersTemplate {
         this.addTag()
     }
 
+
+    updateResult(){
+        const resultWrapper = document.querySelector(".result")
+        const nbrOfResults = document.querySelector(".recipes").childElementCount
+        resultWrapper.innerText = `${nbrOfResults} recettes`
+    }
+
+    updateRecipes(newRecipesList){
+        const recipesWrapper = document.querySelector(".recipes")
+        recipesWrapper.innerHTML = ""
+
+        newRecipesList.forEach(recipe => {
+            const recipeArticle = recipeTemplate(recipe)
+            recipesWrapper.innerHTML += recipeArticle
+
+            const ingredientsArticle = document.querySelector(`.recipe[data-id="${recipe.id}"] .recipe__details .recipe__ingredients`)
+            ingredientsArticle.appendChild(ingredientsTemplate(recipe.ingredients))
+        })
+    }
+
+    /** Met à jour les filtres en fonction des recettes affichées
+     * 
+     * @param {Arary [recipes]} recipes 
+     */
     updateFilters(recipes){
         this.clearFilters()
         this.createFilters(recipes)
@@ -73,6 +97,9 @@ export class filtersTemplate {
         this.addTag()
     }
 
+    /**
+     * supprime le contenu des listes dans les filtres
+     */
     clearFilters() {
         const ingredientsList = document.querySelector(".ingredients__list")
         const appliancesList = document.querySelector(".appliances__list")
@@ -82,9 +109,9 @@ export class filtersTemplate {
         ustensilsList.innerHTML = ""
     }
 
-    /**
+    /** Retourne les recettes correspondantes aux tags affichés.
      * 
-     * @param {Object} recipes recette au format object de recipe.js
+     * @param {Array[recipes]} recipes tableau de recette
      * @param {span} tag tag selectionné dans l'une des listes déroulante
      * @returns {Array[recipes]} 
      */
@@ -123,7 +150,12 @@ export class filtersTemplate {
         return newRecipes
     }
 
-    updateRecipes(recipes, tag) {
+    /** Retire les recettes non correspondante lors del'ajout de tag
+     * 
+     * @param {Array[recipes]} recipes 
+     * @param {*} tag 
+     */
+    removeRecipes(recipes, tag) {
         const recipesArticle = document.querySelectorAll(".recipes [data-id]")
         const recipesArticleId = []
         //récupération des Ids présents sur la page
@@ -140,20 +172,8 @@ export class filtersTemplate {
         })
 
         const newRecipesList = this.getNewRecipesList(actualRecipes, tag)
-        const recipesWrapper = document.querySelector(".recipes")
-        recipesWrapper.innerHTML = ""
-
-        newRecipesList.forEach(recipe => {
-            const recipeArticle = recipeTemplate(recipe)
-            recipesWrapper.innerHTML += recipeArticle
-
-            const ingredientsArticle = document.querySelector(`.recipe[data-id="${recipe.id}"] .recipe__details .recipe__ingredients`)
-            ingredientsArticle.appendChild(ingredientsTemplate(recipe.ingredients))
-        })
-
-
+        this.updateRecipes(newRecipesList)
         this.updateFilters(newRecipesList)
-
     }
 
     deleteTag(tag, tagsArticle, recipes) {
@@ -177,19 +197,10 @@ export class filtersTemplate {
             } else {
                 newRecipesList = recipes
             }
-
-            const recipesWrapper = document.querySelector(".recipes")
-            recipesWrapper.innerHTML = ""
-
-            newRecipesList.forEach(recipe => {
-                const recipeArticle = recipeTemplate(recipe)
-                recipesWrapper.innerHTML += recipeArticle
-
-                const ingredientsArticle = document.querySelector(`.recipe[data-id="${recipe.id}"] .recipe__details .recipe__ingredients`)
-                ingredientsArticle.appendChild(ingredientsTemplate(recipe.ingredients))
-            })
-
+            
+            this.updateRecipes(newRecipesList)
             this.updateFilters(newRecipesList)
+            this.updateResult()
         })
     }
 
@@ -212,7 +223,8 @@ export class filtersTemplate {
                 tagsArticle.appendChild(tag)
 
                 this.deleteTag(tag, tagsArticle, this.recipes)
-                this.updateRecipes(this.recipes, tag)
+                this.removeRecipes(this.recipes, tag)
+                this.updateResult()
             })
         })
     }
@@ -314,7 +326,7 @@ export class filtersTemplate {
         })
     }
 
-    /**
+    /** Créé les filtres en fonction des recettes
      * 
      * @param {Array[Object]} recipes tableau de recettes
      */
