@@ -20,8 +20,23 @@ async function init() {
     updateResult()
 }
 
-async function onSearch(){
-    
+async function onSearch(recipes, query){
+    matchingRecipes = []
+
+    for(let i = 0; i < recipes.length; i++){
+        const actualRecipe = recipes [i]
+        const ingredients = actualRecipe.ingredients
+        const appliance = actualRecipe.appliance
+        const ustensils = actualRecipe.ustensils
+
+        for(let j = 0; j < ingredients.length; j++){
+            const actualIngredient = ingredients[j]
+
+            if(actualIngredient.includes(query)){
+                matchingRecipes.push(actualRecipe)
+            }
+        }
+    }
 }
 
 async function updateResult(){
@@ -36,7 +51,7 @@ async function manageMainSearchField() {
     const clearMainField = document.querySelector(".search .fa-xmark")
     
     searchField.addEventListener("keyup", (event) => {
-        const query = event.target.value
+        const query = event.target.value.trim()
         if (query.length > 0) {
             clearMainField.style.display = "inline"
         } else {

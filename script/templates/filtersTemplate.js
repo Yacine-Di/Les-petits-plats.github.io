@@ -184,7 +184,9 @@ export class filtersTemplate {
             let isFirstFiltering = true
             const allTags = document.querySelectorAll(".tag")
 
-            if (allTags.length !== 0) {
+            if (allTags.length === 0) {
+                newRecipesList = recipes
+            } else {
                 allTags.forEach(t => {
                     if (isFirstFiltering) {
                         newRecipesList = this.getNewRecipesList(recipes, t)
@@ -194,8 +196,6 @@ export class filtersTemplate {
                     }
                     //trier les recettes avec les tag récupéré dans l'ordre des recettes du fichiers
                 })
-            } else {
-                newRecipesList = recipes
             }
             
             this.updateRecipes(newRecipesList)
