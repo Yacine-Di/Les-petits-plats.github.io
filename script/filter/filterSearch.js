@@ -36,43 +36,12 @@ export function filterQueryTags(recipes){
     return newRecipesList
 }
 
-/** fonction de tri des recettes lors de la recherche avec des boucles natives
+/** fonction de tri
  * 
  * @param {Array[recipes]} recipes 
- * @param {string} query recherche tapé par l'utilisateur dans le champ de recherche principal 
- * @returns {Array[recipes]} 
 */
-function filterQuery(recipes, query) {
-    let matchingRecipes = []
+function filterQuery() {
 
-    recipesLoop: for (let i = 0; i < recipes.length; i++) {
-        const actualRecipe = recipes[i]
-        const ingredients = actualRecipe.ingredients
-        const name = actualRecipe.name.toLowerCase()
-        const description = actualRecipe.description.toLowerCase()
-
-        for (let j = 0; j < ingredients.length; j++) {
-            const actualIngredient = ingredients[j]
-
-            if (actualIngredient.ingredient.includes(query)) {
-                matchingRecipes.push(actualRecipe)
-                continue recipesLoop
-            }
-        }
-
-        if (name.includes(query) || description.includes(query)) {
-            matchingRecipes.push(actualRecipe)
-        }
-    }
-
-    if (matchingRecipes.length === 0) {
-        displayNoResultMsg(query)
-    } else{
-        const noResultMsg= document.querySelector(".no_ressult p")
-        noResultMsg.style.display = "none"
-    }
-
-    return matchingRecipes
 }
 
 /** Retourne les recettes correspondantes aux tags affichés.
