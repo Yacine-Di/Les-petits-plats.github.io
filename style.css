@@ -292,3 +292,11 @@ header p{
 .ingredient__quantity{
     color: var(--grey);
 }
+
+.no_ressult p{
+    padding: 0 50px;
+    display: none;
+    font-family: var(--manrope-police);
+    font-size: 30px;
+    font-weight: bo;
+}

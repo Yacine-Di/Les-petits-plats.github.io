@@ -1,4 +1,5 @@
 import { recipeTemplate, ingredientsTemplate } from '../templates/recipeTemplate.js'
+import { filterQuery } from '../pages/index.js'
 
 export class filtersTemplate {
     constructor(recipes) {
@@ -61,11 +62,11 @@ export class filtersTemplate {
         resultWrapper.innerText = `${nbrOfResults} recettes`
     }
 
-    updateRecipes(newRecipesList){
+    updateRecipes(recipesList){
         const recipesWrapper = document.querySelector(".recipes")
         recipesWrapper.innerHTML = ""
 
-        newRecipesList.forEach(recipe => {
+        recipesList.forEach(recipe => {
             const recipeArticle = recipeTemplate(recipe)
             recipesWrapper.innerHTML += recipeArticle
 
@@ -180,28 +181,43 @@ export class filtersTemplate {
         tag.querySelector(".fa-xmark").addEventListener("click", () => {
             tagsArticle.removeChild(tag)
 
-            let newRecipesList = []
-            let isFirstFiltering = true
-            const allTags = document.querySelectorAll(".tag")
-
-            if (allTags.length === 0) {
-                newRecipesList = recipes
-            } else {
-                allTags.forEach(t => {
-                    if (isFirstFiltering) {
-                        newRecipesList = this.getNewRecipesList(recipes, t)
-                        isFirstFiltering = false
-                    } else {
-                        newRecipesList = this.getNewRecipesList(newRecipesList, t)
-                    }
-                    //trier les recettes avec les tag récupéré dans l'ordre des recettes du fichiers
-                })
-            }
+            const newRecipesList = this.filterQueryTags(recipes)
             
             this.updateRecipes(newRecipesList)
             this.updateFilters(newRecipesList)
             this.updateResult()
         })
+    }
+
+    //filtre les recettes avec les tags 
+    filterQueryTags(recipes){
+        let newRecipesList = []
+        let isFirstFiltering = true
+        const allTags = document.querySelectorAll(".tag")
+        const searchField = document.querySelector(".main__field ")
+
+
+        if (allTags.length === 0 && searchField.value.length === 0) {
+            newRecipesList = recipes
+        } else if(allTags.length > 0 &&  searchField.value.length === 0 ) {
+            allTags.forEach(t => {
+                if (isFirstFiltering) {
+                    newRecipesList = this.getNewRecipesList(recipes, t)
+                    isFirstFiltering = false
+                } else {
+                    newRecipesList = this.getNewRecipesList(newRecipesList, t)
+                }
+            })
+        } else if(allTags.length === 0 && searchField.value.length !== 0){
+            newRecipesList = filterQuery(this.recipes, searchField.value)
+        } else {
+            newRecipesList = filterQuery(this.recipes, searchField.value)
+            allTags.forEach(t => {
+                newRecipesList = this.getNewRecipesList(newRecipesList, t)
+            })
+        }
+
+        return newRecipesList
     }
 
     //ajout de tag dans la zone dédié
