@@ -61,6 +61,7 @@ async function manageMainSearchField(recipes) {
 
         if (query.length === 0) {
             clearMainField.style.display = "none"
+            filters.updateFilters(matchingRecipes)
             updateRecipes(matchingRecipes)
             updateResult()
         } else {
