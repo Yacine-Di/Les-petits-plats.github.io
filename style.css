@@ -171,6 +171,12 @@ header p{
     margin: 10px auto;
 }
 
+.filter label,
+.filters__result li,
+.tag .fa-xmark{
+    cursor: pointer;
+}
+
 .tags{
     margin-top: 20px;
 }
@@ -294,9 +300,10 @@ header p{
 }
 
 .no_ressult p{
+    margin-bottom: 100px;
     padding: 0 50px;
     display: none;
     font-family: var(--manrope-police);
     font-size: 30px;
-    font-weight: bo;
+    font-weight: bold;
 }
