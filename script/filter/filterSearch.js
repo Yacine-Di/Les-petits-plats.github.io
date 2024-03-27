@@ -48,8 +48,8 @@ function filterQuery(recipes, query) {
     recipesLoop: for (let i = 0; i < recipes.length; i++) {
         const actualRecipe = recipes[i]
         const ingredients = actualRecipe.ingredients
-        const name = actualRecipe.name
-        const description = actualRecipe.description
+        const name = actualRecipe.name.toLowerCase()
+        const description = actualRecipe.description.toLowerCase()
 
         for (let j = 0; j < ingredients.length; j++) {
             const actualIngredient = ingredients[j]
@@ -60,7 +60,7 @@ function filterQuery(recipes, query) {
             }
         }
 
-        if (name.trim().includes(query) || description.trim().includes(query)) {
+        if (name.includes(query) || description.includes(query)) {
             matchingRecipes.push(actualRecipe)
         }
     }

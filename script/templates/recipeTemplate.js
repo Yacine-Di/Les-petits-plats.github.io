@@ -1,6 +1,6 @@
 
 export function recipeTemplate(data) {
-    const { id, image, name, serving, ingredients, time, description, appliance, ustensils } = data
+    const { id, image, name, time, description } = data
 
     const picture = `assets/recipes/${image}`
 
