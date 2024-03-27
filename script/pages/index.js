@@ -1,6 +1,7 @@
 import { recipes } from '../data/recipes.js'
 import { filtersTemplate } from '../templates/filtersTemplate.js'
 import { recipeTemplate, ingredientsTemplate } from '../templates/recipeTemplate.js'
+import { filterQueryTags } from '../filter/filterSearch.js'
 
 const filters = new filtersTemplate(recipes)
 
@@ -21,45 +22,7 @@ async function init() {
     updateResult()
 }
 
-/** fonction de tri des recettes lors de la recherche avec des boucles natives
- * 
- * @param {Array[recipes]} recipes 
- * @param {string} query recherche tapé par l'utilisateur dans le champ de recherche principal 
- */
-export function filterQuery(recipes, query) {
-    let matchingRecipes = []
-
-    recipesLoop: for (let i = 0; i < recipes.length; i++) {
-        const actualRecipe = recipes[i]
-        const ingredients = actualRecipe.ingredients
-        const name = actualRecipe.name
-        const description = actualRecipe.description
-
-        for (let j = 0; j < ingredients.length; j++) {
-            const actualIngredient = ingredients[j]
-
-            if (actualIngredient.ingredient.includes(query)) {
-                matchingRecipes.push(actualRecipe)
-                continue recipesLoop
-            }
-        }
-
-        if (name.trim().includes(query) || description.trim().includes(query)) {
-            matchingRecipes.push(actualRecipe)
-        }
-    }
-
-    if (matchingRecipes.length === 0) {
-        displayNoResultMsg(query)
-    } else{
-        const noResultMsg= document.querySelector(".no_ressult p")
-        noResultMsg.style.display = "none"
-    }
-
-    return matchingRecipes
-}
-
-async function displayNoResultMsg(query){
+export async function displayNoResultMsg(query){
     const noResultMsg = document.querySelector(".no_ressult p")
     noResultMsg.innerText = `Aucune recette ne contient '${query}' vous pouvez chercher «
     tarte aux pommes », « poisson », etc.`
@@ -94,15 +57,18 @@ async function manageMainSearchField(recipes) {
 
     searchField.addEventListener("keyup", (event) => {
         const query = event.target.value.trim()
-        if (query.length < 3) {
-            clearMainField.style.display = "none"
-            updateRecipes(recipes)
-            updateResult()
+        let matchingRecipes = filterQueryTags(recipes, query)
 
+        if (query.length === 0) {
+            clearMainField.style.display = "none"
+            updateRecipes(matchingRecipes)
+            updateResult()
         } else {
             clearMainField.style.display = "inline"
             if (query.length >= 3) {
-                let matchingRecipes = filterQuery(recipes, query)
+                if(matchingRecipes.length === 0){
+                    displayNoResultMsg(query)
+                }
                 filters.updateFilters(matchingRecipes)
                 updateRecipes(matchingRecipes)
                 updateResult()
@@ -111,11 +77,11 @@ async function manageMainSearchField(recipes) {
     })
     
     clearMainField.addEventListener("click", () => {
-        const query = searchField.value
+        const query = searchField.value.trim()
         if (query.length > 0) {
             searchField.value = ""
             clearMainField.style.display = "none"
-            let matchingRecipes = filters.filterQueryTags(recipes)
+            let matchingRecipes = filterQueryTags(recipes)
             filters.updateFilters(matchingRecipes)
             updateRecipes(matchingRecipes)
             updateResult()

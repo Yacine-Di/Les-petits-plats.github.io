@@ -1,5 +1,5 @@
 import { recipeTemplate, ingredientsTemplate } from '../templates/recipeTemplate.js'
-import { filterQuery } from '../pages/index.js'
+import { filterQueryTags, getNewRecipesList } from '../filter/filterSearch.js'
 
 export class filtersTemplate {
     constructor(recipes) {
@@ -110,47 +110,6 @@ export class filtersTemplate {
         ustensilsList.innerHTML = ""
     }
 
-    /** Retourne les recettes correspondantes aux tags affichés.
-     * 
-     * @param {Array[recipes]} recipes tableau de recette
-     * @param {span} tag tag selectionné dans l'une des listes déroulante
-     * @returns {Array[recipes]} 
-     */
-    getNewRecipesList(recipes, tag) {
-        const dataType = tag.parentNode.parentNode.querySelector(".filter label").getAttribute("for")
-        const selectedData = tag.getAttribute("data-name")
-        const newRecipes = []
-
-        switch (dataType) {
-            case "ingredients":
-                recipes.forEach(recipe => {
-                    recipe.ingredients.forEach(ingredient => {
-                        if (ingredient.ingredient.toLowerCase() === selectedData) {
-                            newRecipes.push(recipe)
-                        }
-                    })
-                })
-                break;
-            case "appliance":
-                recipes.forEach(recipe => {
-                    if (recipe.appliance.toLowerCase() === selectedData) {
-                        newRecipes.push(recipe)
-                    }
-                })
-                break;
-            case "ustensils":
-                recipes.forEach(recipe => {
-                    recipe.ustensils.forEach(ustensil => {
-                        if (ustensil.toLowerCase() === selectedData) {
-                            newRecipes.push(recipe)
-                        }
-                    })
-                })
-        }
-
-        return newRecipes
-    }
-
     /** Retire les recettes non correspondante lors del'ajout de tag
      * 
      * @param {Array[recipes]} recipes 
@@ -172,7 +131,7 @@ export class filtersTemplate {
             }
         })
 
-        const newRecipesList = this.getNewRecipesList(actualRecipes, tag)
+        const newRecipesList = getNewRecipesList(actualRecipes, tag)
         this.updateRecipes(newRecipesList)
         this.updateFilters(newRecipesList)
     }
@@ -181,8 +140,7 @@ export class filtersTemplate {
         tag.querySelector(".fa-xmark").addEventListener("click", () => {
             tagsArticle.removeChild(tag)
 
-            const newRecipesList = this.filterQueryTags(recipes)
-            
+            const newRecipesList = filterQueryTags(recipes)
             this.updateRecipes(newRecipesList)
             this.updateFilters(newRecipesList)
             this.updateResult()
@@ -190,35 +148,7 @@ export class filtersTemplate {
     }
 
     //filtre les recettes avec les tags 
-    filterQueryTags(recipes){
-        let newRecipesList = []
-        let isFirstFiltering = true
-        const allTags = document.querySelectorAll(".tag")
-        const searchField = document.querySelector(".main__field ")
 
-
-        if (allTags.length === 0 && searchField.value.length === 0) {
-            newRecipesList = recipes
-        } else if(allTags.length > 0 &&  searchField.value.length === 0 ) {
-            allTags.forEach(t => {
-                if (isFirstFiltering) {
-                    newRecipesList = this.getNewRecipesList(recipes, t)
-                    isFirstFiltering = false
-                } else {
-                    newRecipesList = this.getNewRecipesList(newRecipesList, t)
-                }
-            })
-        } else if(allTags.length === 0 && searchField.value.length !== 0){
-            newRecipesList = filterQuery(this.recipes, searchField.value)
-        } else {
-            newRecipesList = filterQuery(this.recipes, searchField.value)
-            allTags.forEach(t => {
-                newRecipesList = this.getNewRecipesList(newRecipesList, t)
-            })
-        }
-
-        return newRecipesList
-    }
 
     //ajout de tag dans la zone dédié
     addTag() {
@@ -278,6 +208,9 @@ export class filtersTemplate {
         }
     }
 
+    /** Gère de la recherche des filtres
+     * 
+     */
     onSearch() {
         this.wrapper
             .querySelectorAll(".filter input")
