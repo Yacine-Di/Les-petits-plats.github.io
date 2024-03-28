@@ -7,7 +7,7 @@ import { displayNoResultMsg } from "../pages/index.js"
  * @param {Array[recipes]} recipes tableau de recettes
  * @returns renvoie un tableau de recettes filtré
  */
-export function filterQueryTags(recipes){
+export function filterQueryTags(recipes) {
     let newRecipesList = []
     let isFirstFiltering = true
     const allTags = document.querySelectorAll(".tag")
@@ -16,7 +16,7 @@ export function filterQueryTags(recipes){
 
     if (allTags.length === 0 && searchField.value.length === 0) {
         newRecipesList = recipes
-    } else if(allTags.length > 0 &&  searchField.value.length === 0 ) {
+    } else if (allTags.length > 0 && searchField.value.length === 0) {
         allTags.forEach(t => {
             if (isFirstFiltering) {
                 newRecipesList = getNewRecipesList(recipes, t)
@@ -25,13 +25,15 @@ export function filterQueryTags(recipes){
                 newRecipesList = getNewRecipesList(newRecipesList, t)
             }
         })
-    } else if(allTags.length === 0 && searchField.value.length !== 0){
+    } else if (allTags.length === 0 && searchField.value.length !== 0) {
         newRecipesList = filterQuery(allRecipes, searchField.value)
     } else {
-        newRecipesList = filterQuery(allRecipes, searchField.value)
-        allTags.forEach(t => {
-            newRecipesList = getNewRecipesList(newRecipesList, t)
-        })
+        if(searchField.value.length >= 3){
+            newRecipesList = filterQuery(allRecipes, searchField.value)
+            allTags.forEach(t => {
+                newRecipesList = getNewRecipesList(newRecipesList, t)
+            })
+        }
     }
 
     return newRecipesList
@@ -41,8 +43,36 @@ export function filterQueryTags(recipes){
  * 
  * @param {Array[recipes]} recipes 
 */
-function filterQuery() {
+function filterQuery(recipes, query) {
+    let matchingRecipes = []
 
+    recipes.forEach(recipe => {
+        const ingredients = recipe.ingredients
+        const name = recipe.name.toLowerCase()
+        const description = recipe.description.toLowerCase()
+
+        ingredients.forEach(ingredient => {
+            const actualIngredient = ingredient.ingredient.toLowerCase()
+            if (actualIngredient.includes(query) 
+                && !matchingRecipes.some(r => r.id === recipe.id)) {
+                matchingRecipes.push(recipe)
+            }
+        })
+
+        if(name.includes(query) || description.includes(query)
+            && !matchingRecipes.some(r => r.id === recipe.id)){
+            matchingRecipes.push(recipe)
+        }
+    })
+
+    if (matchingRecipes.length === 0) {
+        displayNoResultMsg(query)
+    } else {
+        const noResultMsg = document.querySelector(".no_ressult p")
+        noResultMsg.style.display = "none"
+    }
+
+    return matchingRecipes
 }
 
 /** Retourne les recettes correspondantes aux tags affichés.
