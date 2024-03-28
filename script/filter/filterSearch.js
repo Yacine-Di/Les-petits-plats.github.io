@@ -1,4 +1,5 @@
 import { recipes as allRecipes } from "../data/recipes.js"
+// eslint-disable-next-line no-unused-vars
 import { displayNoResultMsg } from "../pages/index.js"
 
 /**
