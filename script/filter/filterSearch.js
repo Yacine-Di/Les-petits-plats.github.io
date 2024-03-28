@@ -1,5 +1,5 @@
-import { recipes as allRecipes } from '../data/recipes.js'
-import { displayNoResultMsg } from '../pages/index.js'
+import { recipes as allRecipes } from "../data/recipes.js"
+import { displayNoResultMsg } from "../pages/index.js"
 
 /**
  * 
@@ -56,30 +56,30 @@ export function getNewRecipesList(recipes, tag) {
     const newRecipes = []
 
     switch (dataType) {
-        case "ingredients":
-            recipes.forEach(recipe => {
-                recipe.ingredients.forEach(ingredient => {
-                    if (ingredient.ingredient.toLowerCase() === selectedData) {
-                        newRecipes.push(recipe)
-                    }
-                })
-            })
-            break;
-        case "appliance":
-            recipes.forEach(recipe => {
-                if (recipe.appliance.toLowerCase() === selectedData) {
+    case "ingredients":
+        recipes.forEach(recipe => {
+            recipe.ingredients.forEach(ingredient => {
+                if (ingredient.ingredient.toLowerCase() === selectedData) {
                     newRecipes.push(recipe)
                 }
             })
-            break;
-        case "ustensils":
-            recipes.forEach(recipe => {
-                recipe.ustensils.forEach(ustensil => {
-                    if (ustensil.toLowerCase() === selectedData) {
-                        newRecipes.push(recipe)
-                    }
-                })
+        })
+        break
+    case "appliance":
+        recipes.forEach(recipe => {
+            if (recipe.appliance.toLowerCase() === selectedData) {
+                newRecipes.push(recipe)
+            }
+        })
+        break
+    case "ustensils":
+        recipes.forEach(recipe => {
+            recipe.ustensils.forEach(ustensil => {
+                if (ustensil.toLowerCase() === selectedData) {
+                    newRecipes.push(recipe)
+                }
             })
+        })
     }
 
     return newRecipes

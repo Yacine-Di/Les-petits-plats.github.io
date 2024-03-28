@@ -1,7 +1,7 @@
-import { recipes } from '../data/recipes.js'
-import { filtersTemplate } from '../templates/filtersTemplate.js'
-import { recipeTemplate, ingredientsTemplate } from '../templates/recipeTemplate.js'
-import { filterQueryTags } from '../filter/filterSearch.js'
+import { recipes } from "../data/recipes.js"
+import { filtersTemplate } from "../templates/filtersTemplate.js"
+import { recipeTemplate, ingredientsTemplate } from "../templates/recipeTemplate.js"
+import { filterQueryTags } from "../filter/filterSearch.js"
 
 const filters = new filtersTemplate(recipes)
 

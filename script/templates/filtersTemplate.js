@@ -1,5 +1,5 @@
-import { recipeTemplate, ingredientsTemplate } from '../templates/recipeTemplate.js'
-import { filterQueryTags, getNewRecipesList } from '../filter/filterSearch.js'
+import { recipeTemplate, ingredientsTemplate } from "../templates/recipeTemplate.js"
+import { filterQueryTags, getNewRecipesList } from "../filter/filterSearch.js"
 
 export class filtersTemplate {
     constructor(recipes) {
@@ -147,9 +147,6 @@ export class filtersTemplate {
         })
     }
 
-    //filtre les recettes avec les tags 
-
-
     //ajout de tag dans la zone dédié
     addTag() {
         const allListElements = this.wrapper.querySelectorAll("ul li")
@@ -157,7 +154,7 @@ export class filtersTemplate {
             element.addEventListener("click", () => {
                 const tag = document.createElement("span")
                 const text = document.createElement("p")
-                const clearBtn = `<i class="fa-solid fa-xmark"></i>`
+                const clearBtn = "<i class=\"fa-solid fa-xmark\"></i>"
 
                 text.innerHTML = element.innerHTML
                 tag.appendChild(text)
