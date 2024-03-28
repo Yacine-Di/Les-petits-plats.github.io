@@ -100,12 +100,12 @@ header p{
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-    padding: 20px;
     margin-right: 50px;
     background-color: #FFF;
 }
 
 .filter label{
+    padding: 20px;
     font-family: var(--manrope-police);
     display: flex;
     justify-content: space-between;
@@ -115,6 +115,8 @@ header p{
     display: flex;
     position: relative;
     margin-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .input__block .fa-solid{
@@ -125,13 +127,13 @@ header p{
 .filter .fa-xmark{
     display: none;
     top: 12px;
-    right: 30px;
+    right: 40px;
     font-size: 14px;
 }
 
 .filter .fa-magnifying-glass{
     top: 12px;
-    right: 10px;
+    right: 20px;
     font-size: 16px;
 }
 
@@ -165,10 +167,14 @@ header p{
 }
 
 .filters__result li{
+    padding: 10px 20px;
     list-style-type: none;
     display: block;
     font-family: var(--manrope-police);
-    margin: 10px auto;
+}
+
+.filters__result li:hover{
+    background-color: var(--yellow);
 }
 
 .filter label,
@@ -190,6 +196,7 @@ header p{
     border-radius: 10px;
     background-color: var(--yellow);
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .tag p{
