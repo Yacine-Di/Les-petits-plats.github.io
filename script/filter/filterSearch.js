@@ -39,7 +39,7 @@ export function filterQueryTags(recipes) {
     return newRecipesList
 }
 
-/** fonction de tri
+/** fonction de tri des recettes lors de la recherche avec les méthodes de l'objet Array
  * 
  * @param {Array[recipes]} recipes 
 */
