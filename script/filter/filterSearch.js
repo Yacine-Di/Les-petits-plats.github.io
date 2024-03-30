@@ -25,7 +25,7 @@ export function filterQueryTags(recipes) {
                 newRecipesList = getNewRecipesList(newRecipesList, t)
             }
         })
-    } else if (allTags.length === 0 && searchField.value.length !== 0) {
+    } else if (allTags.length === 0 && searchField.value.length >= 3) {
         newRecipesList = filterQuery(allRecipes, searchField.value)
     } else {
         if(searchField.value.length >= 3){
