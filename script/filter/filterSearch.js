@@ -59,8 +59,6 @@ function filterQuery(recipes, query) {
             }
         })
 
-        console.log(matchingRecipes.some(r => r.id === recipe.id))
-
         if((name.includes(query) || description.includes(query))
             && !matchingRecipes.some(r => r.id === recipe.id)){
             matchingRecipes.push(recipe)
