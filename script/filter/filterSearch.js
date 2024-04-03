@@ -2,7 +2,7 @@ import { recipes as allRecipes } from "../data/recipes.js"
 // eslint-disable-next-line no-unused-vars
 import { displayNoResultMsg } from "../pages/index.js"
 
-/**
+/** Fonction de tri avec le champ de recherche et les tags
  * 
  * @param {Array[recipes]} recipes tableau de recettes
  * @returns renvoie un tableau de recettes filtré

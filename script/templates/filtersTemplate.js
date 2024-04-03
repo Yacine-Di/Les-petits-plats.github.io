@@ -197,6 +197,7 @@ export class filtersTemplate {
                 list.appendChild(newList[i])
                 list.parentNode.style.height = "fit-content"
             }
+            
         } else {
             defaultList.forEach(element => {
                 list.appendChild(element)
