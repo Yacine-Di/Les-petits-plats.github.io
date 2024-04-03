@@ -30,10 +30,10 @@ export function filterQueryTags(recipes){
     } else {
         if(searchField.value.length >= 3){
             newRecipesList = filterQuery(allRecipes, searchField.value)
+            allTags.forEach(t => {
+                newRecipesList = getNewRecipesList(newRecipesList, t)
+            })
         }
-        allTags.forEach(t => {
-            newRecipesList = getNewRecipesList(newRecipesList, t)
-        })
     }
 
     return newRecipesList
