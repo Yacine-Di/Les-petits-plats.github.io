@@ -42,15 +42,15 @@ export function ingredientsTemplate(ingredients) {
 
         if (ingredient.unit) {
             switch (ingredient.unit) {
-                case "grammes":
-                    ingredientQuantityAndUnit.innerText = `${ingredient.quantity}g`
-                    break;
-                case "ml":
-                case "cl":
-                    ingredientQuantityAndUnit.innerText = `${ingredient.quantity}${ingredient.unit}`
-                    break;
-                default:
-                    ingredientQuantityAndUnit.innerText = `${ingredient.quantity} ${ingredient.unit}`
+            case "grammes":
+                ingredientQuantityAndUnit.innerText = `${ingredient.quantity}g`
+                break
+            case "ml":
+            case "cl":
+                ingredientQuantityAndUnit.innerText = `${ingredient.quantity}${ingredient.unit}`
+                break
+            default:
+                ingredientQuantityAndUnit.innerText = `${ingredient.quantity} ${ingredient.unit}`
             }
         } else if (ingredient.quantity) {
             ingredientQuantityAndUnit.innerText = `${ingredient.quantity}`
