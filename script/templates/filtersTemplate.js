@@ -179,7 +179,8 @@ export class filtersTemplate {
      * @param {icon} closeBtn icon permettant d'effacer le texte
      */
     changeFilters(input, defaultList, closeBtn) {
-        const query = input.value.toLowerCase()
+        const query = DOMPurify.sanitize(input.value.toLowerCase())
+        console.log(query)
         const list = input.parentNode.parentNode.querySelector("ul")
         const newList = []
         list.innerHTML = ""
