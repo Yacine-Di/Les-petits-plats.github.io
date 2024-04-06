@@ -180,7 +180,6 @@ export class filtersTemplate {
      */
     changeFilters(input, defaultList, closeBtn) {
         const query = DOMPurify.sanitize(input.value.toLowerCase())
-        console.log(query)
         const list = input.parentNode.parentNode.querySelector("ul")
         const newList = []
         list.innerHTML = ""
