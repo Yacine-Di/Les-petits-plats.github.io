@@ -56,7 +56,7 @@ async function manageMainSearchField(recipes) {
     const clearMainField = document.querySelector(".search .fa-xmark")
 
     searchField.addEventListener("keyup", (event) => {
-        const query = event.target.value.trim()
+        const query = DOMPurify.sanitize(event.target.value.trim())
         let matchingRecipes = filterQueryTags(recipes, query)
 
         if (query.length === 0) {
