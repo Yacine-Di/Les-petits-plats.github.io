@@ -168,6 +168,10 @@ export class filtersTemplate {
                 this.deleteTag(tag, tagsArticle, this.recipes)
                 this.removeRecipes(this.recipes, tag)
                 this.updateResult()
+
+                document.querySelectorAll(".filter input").forEach(input => {
+                    input.value = ""
+                })
             })
         })
     }
@@ -206,7 +210,7 @@ export class filtersTemplate {
         }
     }
 
-    /** Gère de la recherche des filtres
+    /** Gestion de la recherche des filtres
      * 
      */
     onSearch() {
