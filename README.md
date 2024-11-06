@@ -34,10 +34,10 @@ During this project I learned how to filter data.
 Home page <br>
 <img src="assets/screenshots/petitsplats1.png" width="600" />
 
-Photographer page <br>
+Recipes filtered 1 <br>
 <img src="assets/screenshots/petitsplats2.png" width="600" />
 
-Video modal <br>
+Recipes filtered 2 <br>
 <img src="assets/screenshots/petitsplats3.png" width="600" />
 
 ## Authors
